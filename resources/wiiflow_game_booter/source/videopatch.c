@@ -7,7 +7,7 @@
 
 #define ARRAY_SIZE(a)	(sizeof a / sizeof a[0])
 
-GXRModeObj TVPal528Prog = 
+/*GXRModeObj TVPal528Prog = 
 {
     6,      		 // viDisplayMode
     640,             // fbWidth
@@ -111,6 +111,7 @@ GXRModeObj TVPal524ProgAa =
 	}
 
 };
+*/
 
 static GXRModeObj* vmodes[] = {
 	&TVNtsc240Ds,

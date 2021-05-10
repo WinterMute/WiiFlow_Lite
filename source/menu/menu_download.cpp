@@ -759,7 +759,7 @@ s32 CMenu::_networkComplete(s32 ok, void *usrData)
 
 	if(networkInit)
 	{
-		wolfSSL_Init();
+		//wolfSSL_Init();
 		if(m->m_use_wifi_gecko)
 		{
 			const string &ip = m->m_cfg.getString("DEBUG", "wifi_gecko_ip");
@@ -805,7 +805,7 @@ s32 CMenu::_initNetwork()
 
 	if(ret == 0)
 	{
-		wolfSSL_Init();
+		//wolfSSL_Init();
 		networkInit = true;
 	}
 	return ret;

@@ -5,6 +5,27 @@
 #ifndef _HTTPS_H_
 #define _HTTPS_H_
 
+#ifdef __cplusplus
+extern "C"
+{
+#endif
+
+    struct download
+    {
+        bool skip_response; // Used by WiinnerTag
+        u64 content_length;
+        u64 size;
+        char *data;
+    };
+
+    void downloadfile(const char *url, struct download *buffer);
+
+#ifdef __cplusplus
+}
+#endif
+
+
+#if 0
 #include <libwolfssl/ssl.h>
 
 #include "dns.h"
@@ -53,5 +74,6 @@ extern "C"
 #ifdef __cplusplus
 }
 #endif
+#endif // #if 0
 
 #endif /* _HTTPS_H_ */

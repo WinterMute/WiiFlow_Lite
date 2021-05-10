@@ -1155,8 +1155,8 @@ void CMenu::_launchWii(dir_discHdr *hdr, bool dvd, bool disc_cfg)
 	{
 		DeviceHandle.OpenWBFS(currentPartition);
 		wbfs_partition = (DeviceHandle.GetFSType(currentPartition) == PART_FS_WBFS);
-		if(!wbfs_partition && get_frag_list((u8 *)id.c_str(), (char*)path.c_str(), currentPartition == 0 ? 0x200 : USBStorage2_GetSectorSize()) < 0)
-			Sys_Exit();
+		//if(!wbfs_partition && get_frag_list((u8 *)id.c_str(), (char*)path.c_str(), currentPartition == 0 ? 0x200 : USBStorage2_GetSectorSize()) < 0)
+		//	Sys_Exit();
 		WBFS_Close();
 	}
 	if(cheatFile != NULL)

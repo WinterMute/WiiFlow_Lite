@@ -2,7 +2,7 @@
 // A simple wrapper for libsicksaxis, to make it resemble WPAD/PAD more closely.
 // Written by daxtsu/thedax. I'm releasing this code into the public domain, so do whatever you want with it.
 
-#include <sicksaxis.h>
+#include "sicksaxis.h"
 #include "sicksaxis-wrapper.h"
 
 static DS3 Controller1;

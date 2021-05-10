@@ -1,3 +1,6 @@
+void downloadfile(const char *url, struct download *buffer){}
+
+#if 0
 /*
     Code by blackb0x @ GBAtemp.net
     This allows the Wii to download from servers that use SNI.
@@ -594,3 +597,4 @@ void downloadfile(const char *url, struct download *buffer)
 #endif
     https_close(&httpinfo);
 }
+#endif

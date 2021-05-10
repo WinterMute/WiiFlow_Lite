@@ -41,7 +41,8 @@ SOURCES		:=	source \
 				source/unzip \
 				source/wstringEx \
 				source/wiidrc \
-				source/wupc
+				source/wupc \
+				source/wiidrc
 
 DATA		:=	data \
 				data/images \
@@ -56,9 +57,12 @@ ios			:=	249
 #---------------------------------------------------------------------------------
 # options for code generation
 #---------------------------------------------------------------------------------
-CFLAGS		=	-g -ggdb -O2 -Wall -Wno-multichar -Wextra $(MACHDEP) $(INCLUDE) -D_GNU_SOURCE -DHAVE_CONFIG_H
+CFLAGS		=	-g -ggdb -O2 -Wall -Wno-multichar -Wextra $(MACHDEP) $(INCLUDE) -D_GNU_SOURCE `freetype-config --cflags` -DHAVE_CONFIG_H
 CXXFLAGS	=	$(CFLAGS)
-LDFLAGS		=	-g -ggdb $(MACHDEP) -Wl,-Map,$(notdir $@).map,--section-start,.init=0x80620000,-wrap,malloc,-wrap,free,-wrap,memalign,-wrap,calloc,-wrap,realloc,-wrap,malloc_usable_size,-wrap,wiiuse_register
+LDFLAGS		=	-g -ggdb $(MACHDEP) \
+			-Wl,-Map,$(notdir $@).map,--section-start,.init=0x80620000 \
+			-Wl,-wrap,malloc,-wrap,free,-wrap,memalign,-wrap,calloc,-wrap,realloc,-wrap,malloc_usable_size \
+			#-Wl,-wrap,wiiuse_register
 
 ifeq ($(GITHUB_ACTIONS),true)
 SHA = $(GITHUB_SHA)
@@ -74,13 +78,14 @@ endif
 #---------------------------------------------------------------------------------
 # any extra libraries we wish to link with the project
 #---------------------------------------------------------------------------------
-LIBS	:=	-lwolfssl -lcustomfat -lcustomntfs -lcustomext2fs -lpng -lturbojpeg -lm -lz -lwiiuse -lwupc -lwiidrc -lbte -lasnd -logc -lfreetype -lvorbisidec -lmad -lsicksaxis
+#LIBS	:=	-lwolfssl -lcustomfat -lcustomntfs -lcustomext2fs -lpng -lturbojpeg -lm -lz -lwiiuse -lwupc -lwiidrc -lbte -lasnd -logc -lfreetype -lvorbisidec -lmad -lsicksaxis
+LIBS	:=	-lpng -lturbojpeg -lm -lz -lwiiuse -lbte -lasnd `freetype-config --libs` -lvorbisidec -logg -lmad -lfat -logc
 
 #---------------------------------------------------------------------------------
 # list of directories containing libraries, this must be the top level containing
 # include and lib
 #---------------------------------------------------------------------------------
-LIBDIRS	:=	$(CURDIR)/portlibs
+LIBDIRS	:=	$(PORTLIBS)
 #---------------------------------------------------------------------------------
 # no real need to edit anything past this point unless you need to add additional
 # rules for different file extensions
@@ -120,24 +125,23 @@ else
 endif
 
 export OFILES	:=	$(CPPFILES:.cpp=.o) $(CFILES:.c=.o) \
-					$(sFILES:.s=.o) $(SFILES:.S=.o) \
-					$(PNGFILES:.png=.png.o) $(JPGFILES:.jpg=.jpg.o) \
-					$(OGGFILES:.ogg=.ogg.o) $(TXTFILES:.txt=.txt.o) \
-					$(WAVFILES:.wav=.wav.o) $(addsuffix .o,$(BINFILES))
+			$(sFILES:.s=.o) $(SFILES:.S=.o) \
+			$(PNGFILES:.png=.png.o) $(JPGFILES:.jpg=.jpg.o) \
+			$(OGGFILES:.ogg=.ogg.o) $(TXTFILES:.txt=.txt.o) \
+			$(WAVFILES:.wav=.wav.o) $(addsuffix .o,$(BINFILES))
 
 #---------------------------------------------------------------------------------
 # build a list of include paths
 #---------------------------------------------------------------------------------
 export INCLUDE	:=	$(foreach dir,$(INCLUDES),-I$(CURDIR)/$(dir)) \
-					$(foreach dir,$(LIBDIRS),-I$(dir)/include) \
-					-I$(CURDIR)/$(BUILD) -I$(LIBOGC_INC) \
-					-I$(PORTLIBS)/include
+			$(foreach dir,$(LIBDIRS),-I$(dir)/include) \
+			-I$(CURDIR)/$(BUILD) -I$(LIBOGC_INC) \
 
 #---------------------------------------------------------------------------------
 # build a list of library paths
 #---------------------------------------------------------------------------------
 export LIBPATHS	:=	$(foreach dir,$(LIBDIRS),-L$(dir)/lib) \
-					-L$(CURDIR)/source/libwolfssl/ -L$(LIBOGC_LIB) -L$(PORTLIBS)/lib
+			 -L$(LIBOGC_LIB)
 
 export OUTPUT	:=	$(CURDIR)/out/$(TARGET)
 .PHONY: $(BUILD) all clean
@@ -193,7 +197,7 @@ $(OUTPUT).elf: $(OFILES)
 %.txt.o	:	%.txt
 	@echo $(notdir $<)
 	@bin2s -a 32 $< | $(AS) -o $(@)
-	
+
 %.jpg.o	:	%.jpg
 	@echo $(notdir $<)
 	@bin2s -a 32 $< | $(AS) -o $(@)

@@ -1,11 +1,13 @@
+#if 0
+
 #include <ogcsys.h>
 #include <stdlib.h>
 #include <stdio.h>
 #include <unistd.h>
 #include <sys/stat.h>
 
-#include "ntfs.h"
-#include "ntfsfile_frag.h"
+//#include "ntfs.h"
+//#include "ntfsfile_frag.h"
 
 #include "wbfs.h"
 #include "wbfs_ext.h"
@@ -295,3 +297,4 @@ out:
 	}
 	return ret_val;
 }
+#endif

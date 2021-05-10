@@ -33,7 +33,7 @@
 #include "homebrew/homebrew.h"
 #include "memory/mem2.hpp"
 //#include "network/FTP_Dir.hpp"
-#include "network/https.h"
+//#include "network/https.h"
 #include "plugin/crc32.h"
 
 /* External WiiFlow Game Booter */
@@ -131,7 +131,7 @@ void ExternalBooter_WiiGameSetup(bool wbfs, bool dvd, bool patchregion, const ch
 	memset(&normalCFG, 0, sizeof(the_CFG));
 	normalCFG.GameBootType = dvd ? TYPE_WII_DISC : (wbfs ? TYPE_WII_WBFS : TYPE_WII_WBFS_EXT);
 	strncpy(normalCFG.gameID, ID, 6);
-	normalCFG.fragments = frag_list;
+	//normalCFG.fragments = frag_list;
 	normalCFG.wbfsDevice = wbfsDev;
 	normalCFG.wbfsPart = wbfs_part_idx;
 	normalCFG.patchregion = patchregion;
@@ -157,7 +157,7 @@ void ShutdownBeforeExit(void)
 			usleep(50);
 		WiFiDebugger.Close();
 		//ftp_endTread();
-		wolfSSL_Cleanup();
+//		wolfSSL_Cleanup();
 		net_deinit();
 		networkInit = false;
 	}
