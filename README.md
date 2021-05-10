@@ -1,32 +1,33 @@
 # WiiFlow Lite
-My mod of the Wii USB Loader WiiFlow
+
+Attempt to clean up the project and build with modern tooling.
 
 ## Description
 WiiFlow Lite is a wii homebrew app used to display and launch your games and apps stored on a USB device or SD card plugged into a Wii or Wii U in Wii mode. The games and apps are displayed in cover flow style display.
 
 ## Compiling
-WiiFlow Lite is currently compiled using DevkitPro PPC r30 and Libogc 1.8.19. I recommend getting Tortoise Git to checkout the WiiFlow Lite repository.
+This fork can be compiled using stock devkitPPC and several portlibs provided by devkitPro. There is probably still some work to do to get it to actually work but at least it will compile and link without vandalising a stock install.
 
-## Installing
-As of v5.2.0 WiiFlow Lite will simply be a replacement for WiiFlow. Put it in apps/wiiflow and use wiiflow forwarder's to launch it via the wii system menu. forwarders can be found on wiiflowiki4. for previous wiiflow lite users, sorry but you must uninstall your wiiflow lite forwarder and replace it with a wiiflow forwarder.
+See https://devkitpro.org/wiki/Getting_Started for installing devkitPPC. You will also need to install ppc-freetype ppc-libvorbisidec & ppc-libjpeg-turbo via pacman for your chosen system. See https://devkitpro.org/wiki/devkitPro_pacman for details.
 
-Simply download the latest release and extract it to your apps/wiiflow folder on SD or USB HDD. SD is recommended. Your device should be formatted to FAT32.
 
-## Booting
-To start WiiFlow Lite you will need the Homebrew Channel or a WiiFlow forwarder channel installed on your Wii or vWii system menu.
+## DONE
 
-## Themes
-Currently only Carbonik Abz and Rhapsodii themes are compatible with WiiFlow Lite. Other older wiiflow themes need to be updated to work properly with WFL.
+- Remove binary artifacts from repository
+- add wupc, wiidrc & libsicksaxis code. These are minimal code and dependent on hacks
+- Remove inappropriate CI which maintains technical debt & prevents modernisation,
+ 
 
-Carbonik Abz is included in the WiiFlow lite download.
+## TODO
 
-Rhapsodii made by Hakaisha is a new theme designed for wiiflow lite. find it here - (https://gbatemp.net/threads/wiiflow-lite-theme-rhapsodii.511833/)
+- Fix the warnings
+- create a proper portlib of ntfs-3g. https://github.com/tuxera/ntfs-3g
+    - partially done at https://github.com/devkitPro/pacman-packages/tree/wii-filesystems
 
-Other wiiflow lite themes can be found on the wiki linked below. but they need to be updated to properly work with wiiflow lite.
+- create a proper portlib of libext2fs. Appears to be https://git.kernel.org/pub/scm/fs/ext2/e2fsprogs.git
+- wrap socket API in libogc with standard BSD sockets, as we've done for 3DS, Switch & WiiU.
+- Create proper portlib of WolfSSL using said socket API.
+- ???
+- Profit
 
-## Useful Links
-[WiiFlow Lite GBATemp thread](https://gbatemp.net/threads/wiiflow-lite.422685/)
 
-[WiiFlow Wiki](https://sites.google.com/site/wiiflowiki4/)
-
-[Old Sourceforge Project Repository](https://sourceforge.net/projects/wiiflow-lite/)
