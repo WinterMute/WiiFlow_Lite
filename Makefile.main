@@ -39,7 +39,10 @@ SOURCES		:=	source \
 				source/plugin \
 				source/sicksaxis-wrapper \
 				source/unzip \
-				source/wstringEx
+				source/wstringEx \
+				source/wiidrc \
+				source/wupc
+
 DATA		:=	data \
 				data/images \
 				data/help \
