@@ -23,8 +23,7 @@
 
 BannerWindow m_banner;
 
-extern const u8 custombanner_bin[];
-extern const u32 custombanner_bin_size;
+#include "custombanner_bin.h"
 
 void BannerWindow::Init(u8 *font1, u8 *font2)
 {

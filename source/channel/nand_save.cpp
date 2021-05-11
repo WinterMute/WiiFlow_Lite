@@ -25,8 +25,7 @@
 #include "banner/AnimatedBanner.h"
 #include "unzip/U8Archive.h"
 
-extern const u8 save_bin[];
-extern const u32 save_bin_size;
+#include "save_bin.h"
 
 NandSave InternalSave;
 bool cur_load = false;

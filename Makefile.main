@@ -124,11 +124,19 @@ else
 	export LD	:=	$(CXX)
 endif
 
-export OFILES	:=	$(CPPFILES:.cpp=.o) $(CFILES:.c=.o) \
-			$(sFILES:.s=.o) $(SFILES:.S=.o) \
-			$(PNGFILES:.png=.png.o) $(JPGFILES:.jpg=.jpg.o) \
-			$(OGGFILES:.ogg=.ogg.o) $(TXTFILES:.txt=.txt.o) \
-			$(WAVFILES:.wav=.wav.o) $(addsuffix .o,$(BINFILES))
+export OFILES_BIN	:=	\
+	$(PNGFILES:.png=.png.o) $(JPGFILES:.jpg=.jpg.o) \
+	$(OGGFILES:.ogg=.ogg.o) $(TXTFILES:.txt=.txt.o) \
+	$(WAVFILES:.wav=.wav.o) $(addsuffix .o,$(BINFILES))
+
+
+export OFILES_SOURCES := $(CPPFILES:.cpp=.o) $(CFILES:.c=.o) $(sFILES:.s=.o) $(SFILES:.S=.o)
+
+export OFILES := $(OFILES_BIN) $(OFILES_SOURCES)
+
+export HFILES := $(addsuffix .h,$(subst .,_,$(BINFILES)))
+
+
 
 #---------------------------------------------------------------------------------
 # build a list of include paths
@@ -174,33 +182,49 @@ DEPENDS	:=	$(OFILES:.o=.d)
 $(OUTPUT).dol: $(OUTPUT).elf
 $(OUTPUT).elf: $(OFILES)
 
+
+$(OFILES_SOURCES) : $(HFILES)
+
 #---------------------------------------------------------------------------------
 # This rule links in binary data with .ttf, .png, and .mp3 extensions
 #---------------------------------------------------------------------------------
 
-%.png.o : %.png
+#---------------------------------------------------------------------------------
+%.png.o %_png.h: %.png
+#---------------------------------------------------------------------------------
 	@echo $(notdir $<)
-	@bin2s -a 32 $< | $(AS) -o $(@)
+	$(bin2o)
 
-%.ogg.o : %.ogg
+#---------------------------------------------------------------------------------
+%.ogg.o %_ogg.h: %.ogg
+#---------------------------------------------------------------------------------
 	@echo $(notdir $<)
-	@bin2s -a 32 $< | $(AS) -o $(@)
+	$(bin2o)
 
-%.wav.o : %.wav
+#---------------------------------------------------------------------------------
+%.wav.o %_wav.h: %.wav
+#---------------------------------------------------------------------------------
 	@echo $(notdir $<)
-	@bin2s -a 32 $< | $(AS) -o $(@)
+	$(bin2o)
 
-%.bin.o	:	%.bin
+#---------------------------------------------------------------------------------
+%.bin.o	%_bin.h :	%.bin
+#---------------------------------------------------------------------------------
 	@echo $(notdir $<)
-	@bin2s -a 32 $< | $(AS) -o $(@)
+	$(bin2o)
 
-%.txt.o	:	%.txt
+#---------------------------------------------------------------------------------
+%.txt.o	%_txt.h :	%.txt
+#---------------------------------------------------------------------------------
 	@echo $(notdir $<)
-	@bin2s -a 32 $< | $(AS) -o $(@)
+	$(bin2o)
 
-%.jpg.o	:	%.jpg
+#---------------------------------------------------------------------------------
+%.jpg.o	%_jpg.h :	%.jpg
+#---------------------------------------------------------------------------------
 	@echo $(notdir $<)
-	@bin2s -a 32 $< | $(AS) -o $(@)
+	$(bin2o)
+
 
 export PATH		:=	$(PROJECTDIR)/gettext-bin:$(PATH)
 

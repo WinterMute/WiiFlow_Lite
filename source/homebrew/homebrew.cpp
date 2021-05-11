@@ -28,10 +28,9 @@ u8 *appbooter_ptr = NULL;
 u32 appbooter_size = 0;
 using namespace std;
 
-extern const u8 wfstub_bin[];
-extern const u32 wfstub_bin_size;
-extern const u8 stub_bin[];
-extern const u32 stub_bin_size;
+#include "wfstub_bin.h"
+#include "stub_bin.h"
+
 
 u8 valid = 0;
 
